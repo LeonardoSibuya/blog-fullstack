@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { Link } from 'react-router-dom'
+
 export const Header = styled.header`
   background-color: #9450fc;
   z-index: 1;
@@ -25,7 +27,8 @@ export const Content = styled.div`
 export const ListLinks = styled.ul`
   display: flex;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
+  gap: 32px;
 
   li {
     display: flex;
@@ -37,19 +40,19 @@ export const ListLinks = styled.ul`
       width: 16px;
       object-fit: cover;
     }
+  }
+`
 
-    a {
-      text-decoration: none;
-      color: #fff;
-      transition: 0.5s ease;
-      border-bottom: 1.8px solid transparent;
+export const ButtonsLink = styled(Link)`
+  text-decoration: none;
+  color: #fff;
+  transition: 0.5s ease;
+  border-bottom: 1.8px solid transparent;
 
-      &:hover {
-        border-bottom: 1.8px solid #fff;
-        transition: 0.5s ease;
-        letter-spacing: 0.3px;
-      }
-    }
+  &:hover {
+    border-bottom: 1.8px solid #fff;
+    transition: 0.5s ease;
+    letter-spacing: 0.3px;
   }
 `
 

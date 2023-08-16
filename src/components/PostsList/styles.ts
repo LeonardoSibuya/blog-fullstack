@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 
+import { Link } from 'react-router-dom'
+
 export const InfosPost = styled.div`
   display: flex;
   align-items: center;
@@ -30,24 +32,24 @@ export const InfosPost = styled.div`
       background-color: #eee;
     }
   }
+`
+export const ButtonNewPost = styled(Link)`
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #9450fc;
+  padding: 8px 16px;
+  letter-spacing: 1px;
+  border-radius: 8px;
+  transition: 0.5s ease;
 
-  a {
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    background-color: #9450fc;
-    padding: 8px 16px;
-    letter-spacing: 1px;
-    border-radius: 8px;
+  &:hover {
+    background-color: #bc93ff;
     transition: 0.5s ease;
-
-    &:hover {
-      background-color: #bc93ff;
-      transition: 0.5s ease;
-    }
   }
 `
+
 export const Modal = styled.div`
   position: fixed;
   top: 0;

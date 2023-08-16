@@ -14,17 +14,19 @@ const Header = () => {
           <h1>My Blog</h1>
           <S.ListLinks>
             <li>
-              <img src={post} alt="" />
-              <a href="">Posts</a>
+              <img src={post} alt="imagem de postagem" />
+              <S.ButtonsLink to="/">Posts</S.ButtonsLink>
             </li>
             <li>
-              <img src={fav} alt="" />
-              <a href="">My Favorite Posts</a>
+              <img src={fav} alt="imagem de coração" />
+              <S.ButtonsLink to="favoriteposts">
+                My Favorite Posts
+              </S.ButtonsLink>
             </li>
           </S.ListLinks>
           <S.Perfil>
             <p>Olá Leonardo!</p>
-            <img src={photo_perfil} alt="" />
+            <img src={photo_perfil} alt="Foto de perfil" />
           </S.Perfil>
         </S.Content>
       </Container>

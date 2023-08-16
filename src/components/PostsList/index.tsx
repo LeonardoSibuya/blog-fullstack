@@ -72,7 +72,7 @@ const PostsList = () => {
             <img src={lupa} alt="" />
             <input type="text" placeholder="Procurar" />
           </div>
-          <a href="">Add New</a>
+          <S.ButtonNewPost to="newpost">Add New</S.ButtonNewPost>
         </S.InfosPost>
       </Container>
 
