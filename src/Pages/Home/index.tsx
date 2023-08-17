@@ -7,7 +7,7 @@ const Home = () => {
     <>
       <Header />
       <Banner />
-      <PostsList />
+      <PostsList titlePost={''} description={''} id={0} date={''} />
     </>
   )
 }

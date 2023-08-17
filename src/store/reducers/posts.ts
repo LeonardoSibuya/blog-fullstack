@@ -1,28 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { PostsProps } from '../../components/Posts'
+import PostsClass from '../../models/Post'
 
 type PostsState = {
-  items: PostsProps[]
+  items: PostsClass[]
 }
 
 const initialState: PostsState = {
-  items: [
-    {
-      id: 1,
-      titlePost: 'Buy a Car',
-      description:
-        'teste teste teste testeteste testeteste testeteste testeteste testeteste testeteste testeteste teste',
-      date: '16/08/2023'
-    },
-    {
-      id: 2,
-      titlePost: 'Passeio no shopping',
-      description:
-        'teste teste teste testeteste testeteste testeteste testeteste testeteste testeteste testeteste teste',
-      date: '24/09/2023'
-    }
-  ]
+  items: []
 }
 
 const PostSlice = createSlice({
@@ -32,26 +17,17 @@ const PostSlice = createSlice({
     deletePost: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter((post) => post.id !== action.payload)
     },
-    edit: (state, action: PayloadAction<PostsProps>) => {
+    edit: (state, action: PayloadAction<PostsClass>) => {
       const indexPost = state.items.findIndex(
         (post) => post.id === action.payload.id
       )
+
       if (indexPost >= 0) {
         state.items[indexPost] = action.payload
       }
     },
-    create: (state, action: PayloadAction<PostsProps>) => {
-      const postAlredyExists = state.items.find(
-        (post) =>
-          post.titlePost.toLowerCase() ===
-          action.payload.titlePost.toLowerCase()
-      )
-
-      if (postAlredyExists) {
-        alert('This title alredy exists')
-      } else {
-        state.items.push(action.payload)
-      }
+    create: (state, action: PayloadAction<PostsClass>) => {
+      state.items.push(action.payload)
     }
   }
 })

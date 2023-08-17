@@ -1,11 +1,14 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { Provider } from 'react-redux'
+
 import Home from './Pages/Home'
 import EstiloGlobal from './style'
 import NewPost from './Pages/NewPost'
+import store from './store'
 
 function App() {
   return (
-    <>
+    <Provider store={store}>
       <EstiloGlobal />
       <Router>
         <Routes>
@@ -13,7 +16,7 @@ function App() {
           <Route path="/newpost" element={<NewPost />} />
         </Routes>
       </Router>
-    </>
+    </Provider>
   )
 }
 

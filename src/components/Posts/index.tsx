@@ -7,16 +7,11 @@ import { Container } from '../../style'
 import add from '../../images/add-fav.png'
 import remove from '../../images/remove-fav.png'
 import post from '../../images/post.png'
+import PostsClass from '../../models/Post'
 
-export type PostsProps = {
-  id: number
-  titlePost: string
-  date: string
-  description: string
-  modal?: () => void
-}
+type PostsProps = PostsClass
 
-const Posts = ({ titlePost, date, description, modal }: PostsProps) => {
+const Posts = ({ modal, date, description, titlePost }: PostsProps) => {
   const [isFavorite, setIsFavorite] = useState(false)
 
   const favoritePost = () => {

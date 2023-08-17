@@ -50,6 +50,23 @@ export const ButtonNewPost = styled(Link)`
   }
 `
 
+export const NoPostDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  img {
+    max-width: 360px;
+  }
+
+  p {
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+`
+
 export const Modal = styled.div`
   position: fixed;
   top: 0;
@@ -78,38 +95,10 @@ export const ModalContent = styled.div`
   width: 60%;
   position: relative;
   z-index: 1;
-  display: flex;
-  justify-content: center;
-  align-items: start;
   background-color: #eee;
   border-radius: 24px;
   padding: 24px;
   box-shadow: 0px 1px 8px #000;
-
-  span {
-    color: #9450fc;
-    font-size: 12px;
-  }
-
-  p {
-    margin-top: 16px;
-    max-width: 740px;
-    line-height: 22px;
-    text-align: justify;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    align-items: center;
-    max-width: 640px;
-    width: 100%;
-  }
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    max-width: 320px;
-  }
 `
 export const ImageClose = styled.img`
   position: absolute;
@@ -131,7 +120,7 @@ export const ImageClose = styled.img`
 `
 export const HeadModal = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
 
   h3 {
@@ -140,12 +129,63 @@ export const HeadModal = styled.div`
     color: #000;
   }
 
-  > div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
+  span {
+    color: #9450fc;
+    font-size: 12px;
   }
+
+  p {
+    margin-top: 16px;
+    line-height: 22px;
+    text-align: justify;
+  }
+`
+export const ModalForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+
+  input {
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    padding: 8px;
+    outline: none;
+    transition: 0.5s ease;
+
+    :focus {
+      border-color: #9450fc;
+      outline: none;
+      transition: 0.5s ease;
+      padding: 8px 16px;
+    }
+  }
+
+  textarea {
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    padding: 8px;
+    outline: none;
+    transition: 0.5s ease;
+    resize: none;
+    width: 400px;
+    height: 160px;
+
+    :focus {
+      border-color: #9450fc;
+      outline: none;
+      transition: 0.5s ease;
+      width: 480px;
+    }
+  }
+`
+
+export const ContainerButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
 
   button {
     text-align: center;
