@@ -1,46 +1,32 @@
-import { useState } from 'react'
-
-import * as S from './styles'
-
-import { Container } from '../../style'
-
-import add from '../../images/add-fav.png'
-import remove from '../../images/remove-fav.png'
-import post from '../../images/post.png'
 import PostsClass from '../../models/Post'
 
-type PostsProps = PostsClass
+import * as S from './styles'
+import { Container } from '../../style'
 
-const Posts = ({ modal, date, description, titlePost }: PostsProps) => {
-  const [isFavorite, setIsFavorite] = useState(false)
+import postImage from '../../images/post.png'
 
-  const favoritePost = () => {
-    setIsFavorite(!isFavorite)
-  }
+type Props = {
+  post: PostsClass
+  modal: () => void
+}
 
+const Posts = ({ post, modal }: Props) => {
   return (
     <Container>
       <S.PostContent>
         <S.HeadPost>
           <div>
-            <h4>{titlePost}</h4>
-            <span>{date}</span>
+            <h4>{post.titlePost}</h4>
+            <span>{post.date}</span>
           </div>
           <S.ButtonList>
-            <button onClick={favoritePost} className="favorite">
-              {isFavorite ? (
-                <img src={remove} alt="" />
-              ) : (
-                <img src={add} alt="" />
-              )}
-            </button>
             <button onClick={modal}>
-              <img src={post} alt="" />
+              <img src={postImage} alt="" />
               View Post
             </button>
           </S.ButtonList>
         </S.HeadPost>
-        <p>{description}</p>
+        <p>{post.description}</p>
       </S.PostContent>
     </Container>
   )

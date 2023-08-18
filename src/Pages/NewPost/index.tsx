@@ -36,7 +36,7 @@ const NewPost = () => {
 
     if (title.length <= 3) {
       alert('This title is short')
-    } else if (text.length <= 7) {
+    } else if (text.length <= 5) {
       alert('This Text is short')
     } else {
       dispatch(create(CreatePosts))

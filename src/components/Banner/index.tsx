@@ -16,8 +16,14 @@ const Banner = () => {
           </div>
         </S.Profile>
         <S.ButtonsLinks>
-          <a href="">Contact Me</a>
-          <a href="">Conenct Me on LinkedIn</a>
+          <a href="mailto:e_sibuya@outlook.com">Contact Me</a>
+          <a
+            href="https://www.linkedin.com/in/leonardo-sibuya"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Conenct Me on LinkedIn
+          </a>
         </S.ButtonsLinks>
       </Container>
     </S.Banner>

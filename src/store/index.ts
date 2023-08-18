@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 import postReducer from './reducers/posts'
+import filterReducer from './reducers/filtros'
 
 const store = configureStore({
   reducer: {
-    posts: postReducer
+    posts: postReducer,
+    filter: filterReducer
   }
 })
 

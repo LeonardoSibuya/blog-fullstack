@@ -5,6 +5,7 @@ import * as S from './styles'
 import { Container } from '../../style'
 
 import { deletePost, edit } from '../../store/reducers/posts'
+import { searchPosts } from '../../store/reducers/filtros'
 import PostsClass from '../../models/Post'
 import { RootReducer } from '../../store'
 import Posts from '../../components/Posts'
@@ -21,6 +22,8 @@ type PostsProps = PostsClass
 
 const PostsList = ({ description, titlePost }: PostsProps) => {
   const { items } = useSelector((state: RootReducer) => state.posts)
+  const { titlePostSearch } = useSelector((state: RootReducer) => state.filter)
+
   const dispatch = useDispatch()
 
   const [isEdit, setIsEdit] = useState(false)
@@ -36,8 +39,8 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
   }, [titlePost, description])
 
   const cancelEdit = () => {
-    setTitle(description)
-    setText(titlePost)
+    setTitle(titlePost)
+    setText(description)
     setIsEdit(false)
   }
 
@@ -59,6 +62,40 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
     })
   }
 
+  const filterPosts = () => {
+    let filteredPosts = items
+
+    if (titlePostSearch !== undefined) {
+      filteredPosts = filteredPosts.filter(
+        (item) =>
+          item.titlePost.toLowerCase().search(titlePostSearch.toLowerCase()) >=
+          0
+      )
+      return filteredPosts
+    } else {
+      return items
+    }
+  }
+
+  const searchFilterPosts = filterPosts()
+
+  const verifyEdit = () => {
+    if (title.length <= 3 || text.length <= 5) {
+      alert('Edit is invalid, check title and text size')
+    } else {
+      dispatch(
+        edit({
+          id: modal.id,
+          date: modal.date,
+          titlePost: title,
+          description: text
+        })
+      )
+      setIsEdit(false)
+      closeModal()
+    }
+  }
+
   return (
     <>
       <Container>
@@ -66,7 +103,12 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
           <h3>Latest Posts</h3>
           <div>
             <img src={lupa} alt="" />
-            <input type="text" placeholder="Procurar" />
+            <input
+              type="text"
+              placeholder="Search"
+              value={titlePostSearch}
+              onChange={(e) => dispatch(searchPosts(e.target.value))}
+            />
           </div>
           <S.ButtonNewPost to="newpost">Add New</S.ButtonNewPost>
         </S.InfosPost>
@@ -81,13 +123,10 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
         </Container>
       ) : (
         <ul>
-          {items.map((post) => (
+          {searchFilterPosts.map((post) => (
             <Posts
               key={post.id}
-              id={post.id}
-              titlePost={post.titlePost}
-              date={post.date}
-              description={post.description}
+              post={post}
               modal={() =>
                 setModal({
                   date: post.date,
@@ -140,22 +179,7 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
               <S.ContainerButton>
                 {isEdit ? (
                   <>
-                    <button
-                      onClick={() => {
-                        dispatch(
-                          edit({
-                            id: modal.id,
-                            date: modal.date,
-                            titlePost: title,
-                            description: text
-                          })
-                        )
-                        setIsEdit(false)
-                        closeModal()
-                      }}
-                    >
-                      Save
-                    </button>
+                    <button onClick={verifyEdit}>Save</button>
                     <button onClick={cancelEdit}>Cancel</button>
                   </>
                 ) : (

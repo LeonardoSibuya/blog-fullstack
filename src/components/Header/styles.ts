@@ -24,35 +24,26 @@ export const Content = styled.div`
   }
 `
 
-export const ListLinks = styled.ul`
+export const LinkHome = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 32px;
-
-  li {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-
-    img {
-      max-width: 100%;
-      width: 16px;
-      object-fit: cover;
-    }
-  }
-`
-
-export const ButtonsLink = styled(Link)`
+  gap: 8px;
   text-decoration: none;
   color: #fff;
   transition: 0.5s ease;
-  border-bottom: 1.8px solid transparent;
+
+  img {
+    max-width: 100%;
+    width: 16px;
+    object-fit: cover;
+  }
 
   &:hover {
-    border-bottom: 1.8px solid #fff;
+    background-color: #ab79fc;
+    border-radius: 16px;
     transition: 0.5s ease;
-    letter-spacing: 0.3px;
+    padding: 8px;
   }
 `
 
