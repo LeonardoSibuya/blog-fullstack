@@ -5,19 +5,16 @@ import { Container } from '../../style'
 
 import postImage from '../../images/post.png'
 
-type Props = {
-  post: PostsClass
-  modal: () => void
-}
+type Props = PostsClass
 
-const Posts = ({ post, modal }: Props) => {
+const Posts = ({ date, description, titlePost, modal }: Props) => {
   return (
     <Container>
       <S.PostContent>
         <S.HeadPost>
           <div>
-            <h4>{post.titlePost}</h4>
-            <span>{post.date}</span>
+            <h4>{titlePost}</h4>
+            <span>{date}</span>
           </div>
           <S.ButtonList>
             <button onClick={modal}>
@@ -26,7 +23,7 @@ const Posts = ({ post, modal }: Props) => {
             </button>
           </S.ButtonList>
         </S.HeadPost>
-        <p>{post.description}</p>
+        <p>{description}</p>
       </S.PostContent>
     </Container>
   )

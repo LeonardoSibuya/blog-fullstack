@@ -52,18 +52,6 @@ export const ButtonList = styled.div`
     transition: 0.5s ease;
     cursor: pointer;
 
-    &.favorite {
-      width: 32px;
-      height: 32px;
-      padding: 8px;
-      border-radius: 50%;
-
-      img {
-        width: 32px;
-        object-fit: cover;
-      }
-    }
-
     &:hover {
       background-color: #bc93ff;
       transition: 0.5s ease;

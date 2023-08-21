@@ -1,7 +1,8 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useState, FormEvent } from 'react'
 
+import { RootReducer } from '../../store'
 import { create } from '../../store/reducers/posts'
 
 import * as S from './styles'
@@ -26,13 +27,20 @@ const NewPost = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const { items } = useSelector((state: RootReducer) => state.posts)
+
   const [title, setTitle] = useState('')
   const [text, setText] = useState('')
 
   const createPost = (event: FormEvent) => {
     event.preventDefault()
 
-    const CreatePosts = new PostsClass(title, currentDate(), text, 80)
+    const CreatePosts = new PostsClass(
+      title,
+      currentDate(),
+      text,
+      items.length + 1
+    )
 
     if (title.length <= 3) {
       alert('This title is short')

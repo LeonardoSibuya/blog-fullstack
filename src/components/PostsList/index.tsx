@@ -46,10 +46,10 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
 
   const [modal, setModal] = useState<ModalState>({
     isVisible: false,
-    titlePost: title,
+    titlePost: '',
     date: '',
-    description: text,
-    id: 0
+    description: '',
+    id: items.length + 1
   })
 
   const closeModal = () => {
@@ -58,7 +58,7 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
       titlePost: '',
       date: '',
       description: '',
-      id: 80
+      id: modal.id
     })
   }
 
@@ -126,7 +126,10 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
           {searchFilterPosts.map((post) => (
             <Posts
               key={post.id}
-              post={post}
+              id={post.id}
+              titlePost={post.titlePost}
+              date={post.date}
+              description={post.description}
               modal={() =>
                 setModal({
                   date: post.date,
