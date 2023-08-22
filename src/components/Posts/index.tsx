@@ -1,20 +1,24 @@
-import PostsClass from '../../models/Post'
-
 import * as S from './styles'
 import { Container } from '../../style'
 
 import postImage from '../../images/post.png'
+import { ResultsPosts } from '../../services/api'
 
-type Props = PostsClass
+interface Props extends ResultsPosts {
+  modal?: () => void
+}
 
-const Posts = ({ date, description, titlePost, modal }: Props) => {
+const Posts = ({ created_on, description, title, modal, update_on }: Props) => {
   return (
     <Container>
       <S.PostContent>
         <S.HeadPost>
           <div>
-            <h4>{titlePost}</h4>
-            <span>{date}</span>
+            <h4>{title}</h4>
+            <div>
+              <span>{created_on}</span>
+              <span>{update_on}</span>
+            </div>
           </div>
           <S.ButtonList>
             <button onClick={modal}>

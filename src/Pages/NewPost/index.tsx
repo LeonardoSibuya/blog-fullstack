@@ -9,7 +9,7 @@ import * as S from './styles'
 import { Container } from '../../style'
 
 import Header from '../../components/Header'
-import PostsClass from '../../models/Post'
+import { useCreatePostMutation } from '../../services/api'
 
 const currentDate = () => {
   const currentDate = new Date()
@@ -25,31 +25,36 @@ const currentDate = () => {
 
 const NewPost = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
-  const { items } = useSelector((state: RootReducer) => state.posts)
-
-  const [title, setTitle] = useState('')
+  const [titleState, setTitleState] = useState('')
   const [text, setText] = useState('')
+
+  const [createPostMutation, { isSuccess }] = useCreatePostMutation()
+
+  const handleCreatePost = async () => {
+    const newPostApi = {
+      title: titleState,
+      description: text,
+      created_on: currentDate()
+    }
+
+    createPostMutation(newPostApi)
+  }
 
   const createPost = (event: FormEvent) => {
     event.preventDefault()
 
-    const CreatePosts = new PostsClass(
-      title,
-      currentDate(),
-      text,
-      items.length + 1
-    )
-
-    if (title.length <= 3) {
+    if (titleState.length <= 3) {
       alert('This title is short')
     } else if (text.length <= 5) {
       alert('This Text is short')
     } else {
-      dispatch(create(CreatePosts))
-      navigate('/')
+      handleCreatePost()
     }
+  }
+
+  if (isSuccess) {
+    navigate('/')
   }
 
   return (
@@ -62,8 +67,8 @@ const NewPost = () => {
             <label>Title</label>
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={titleState}
+              onChange={(e) => setTitleState(e.target.value)}
               required
             />
           </S.ContainerInput>

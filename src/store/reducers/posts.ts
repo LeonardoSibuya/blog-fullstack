@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import PostsClass from '../../models/Post'
+import { ResultsPosts } from '../../services/api'
 
 type PostsState = {
-  items: PostsClass[]
+  items: ResultsPosts[]
 }
 
 const initialState: PostsState = {
@@ -17,7 +17,7 @@ const PostSlice = createSlice({
     deletePost: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter((post) => post.id !== action.payload)
     },
-    edit: (state, action: PayloadAction<PostsClass>) => {
+    edit: (state, action: PayloadAction<ResultsPosts>) => {
       const indexPost = state.items.findIndex(
         (post) => post.id === action.payload.id
       )
@@ -26,7 +26,7 @@ const PostSlice = createSlice({
         state.items[indexPost] = action.payload
       }
     },
-    create: (state, action: PayloadAction<PostsClass>) => {
+    create: (state, action: PayloadAction<ResultsPosts>) => {
       state.items.push(action.payload)
     }
   }

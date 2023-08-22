@@ -6,21 +6,32 @@ import { Container } from '../../style'
 
 import { deletePost, edit } from '../../store/reducers/posts'
 import { searchPosts } from '../../store/reducers/filtros'
-import PostsClass from '../../models/Post'
+
 import { RootReducer } from '../../store'
 import Posts from '../../components/Posts'
 
 import close from '../../images/close.png'
 import lupa from '../../images/lupa.png'
 import person from '../../images/person.png'
+import {
+  ResultsPosts,
+  useGetPostsIdQuery,
+  useGetPostsQuery
+} from '../../services/api'
 
-export interface ModalState extends PostsClass {
+export interface ModalState extends ResultsPosts {
   isVisible: boolean
 }
 
-type PostsProps = PostsClass
+interface PostsListProps {
+  posts: ResultsPosts[]
+}
 
-const PostsList = ({ description, titlePost }: PostsProps) => {
+const PostsList = ({ posts }: PostsListProps) => {
+  const { data: postsItem } = useGetPostsIdQuery()
+
+  const { data: postsApi } = useGetPostsQuery()
+
   const { items } = useSelector((state: RootReducer) => state.posts)
   const { titlePostSearch } = useSelector((state: RootReducer) => state.filter)
 
@@ -28,67 +39,69 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
 
   const [isEdit, setIsEdit] = useState(false)
 
-  const [title, setTitle] = useState('')
+  const [titleState, setTitleState] = useState('')
   const [text, setText] = useState('')
 
   useEffect(() => {
-    if (description.length && titlePost.length > 0) {
-      setTitle(titlePost)
-      setText(description)
+    if (postsApi && postsApi.length > 0) {
+      setTitleState(postsItem?.title || '')
+      setText(postsItem?.description || '')
     }
-  }, [titlePost, description])
+  }, [postsApi?.length, postsItem?.title, postsItem?.description])
 
   const cancelEdit = () => {
-    setTitle(titlePost)
-    setText(description)
+    setTitleState(postsItem!.title)
+    setText(postsItem!.description)
     setIsEdit(false)
   }
 
   const [modal, setModal] = useState<ModalState>({
     isVisible: false,
-    titlePost: '',
-    date: '',
+    title: '',
+    created_on: '',
     description: '',
-    id: items.length + 1
+    id: items.length + 1,
+    update_on: ''
   })
 
   const closeModal = () => {
     setModal({
       isVisible: false,
-      titlePost: '',
-      date: '',
+      title: '',
+      created_on: '',
       description: '',
-      id: modal.id
+      id: modal.id,
+      update_on: modal.update_on
     })
   }
 
   const filterPosts = () => {
-    let filteredPosts = items
+    let filteredPosts = posts
 
     if (titlePostSearch !== undefined) {
       filteredPosts = filteredPosts.filter(
         (item) =>
-          item.titlePost.toLowerCase().search(titlePostSearch.toLowerCase()) >=
-          0
+          item.title.toLowerCase().search(titlePostSearch.toLowerCase()) >= 0
       )
       return filteredPosts
     } else {
-      return items
+      return posts
     }
   }
 
   const searchFilterPosts = filterPosts()
 
   const verifyEdit = () => {
-    if (title.length <= 3 || text.length <= 5) {
+    if (titleState.length <= 3 || text.length <= 5) {
       alert('Edit is invalid, check title and text size')
     } else {
       dispatch(
         edit({
           id: modal.id,
-          date: modal.date,
-          titlePost: title,
-          description: text
+          created_on: modal.created_on,
+          title: postsItem!.title,
+          description: postsItem!.description,
+          update_on: modal.update_on
         })
       )
       setIsEdit(false)
@@ -114,7 +127,7 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
         </S.InfosPost>
       </Container>
 
-      {items.length < 1 ? (
+      {posts.length < 1 ? (
         <Container>
           <S.NoPostDiv>
             <img src={person} alt="pessoa no computador" />
@@ -123,20 +136,22 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
         </Container>
       ) : (
         <ul>
-          {searchFilterPosts.map((post) => (
+          {searchFilterPosts?.map((post) => (
             <Posts
               key={post.id}
               id={post.id}
-              titlePost={post.titlePost}
-              date={post.date}
+              title={post.title}
+              created_on={post.created_on}
               description={post.description}
+              update_on={post.update_on}
               modal={() =>
                 setModal({
-                  date: post.date,
+                  created_on: post.created_on,
                   description: post.description,
                   id: post.id,
                   isVisible: true,
-                  titlePost: post.titlePost
+                  title: post.title,
+                  update_on: post.update_on
                 })
               }
             />
@@ -160,8 +175,8 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
                 <S.ModalForm>
                   <input
                     type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    value={titleState}
+                    onChange={(e) => setTitleState(e.target.value)}
                   />
                   <div>
                     <textarea
@@ -172,8 +187,8 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
                 </S.ModalForm>
               ) : (
                 <S.HeadModal>
-                  <h3>{modal.titlePost}</h3>
-                  <span>{modal.date}</span>
+                  <h3>{modal.title}</h3>
+                  <span>{modal.created_on}</span>
                   <div>
                     <p>{modal.description}</p>
                   </div>
@@ -190,7 +205,7 @@ const PostsList = ({ description, titlePost }: PostsProps) => {
                     <button
                       onClick={() => {
                         setIsEdit(true)
-                        setTitle(modal.titlePost)
+                        setTitleState(modal.title)
                         setText(modal.description)
                       }}
                     >
