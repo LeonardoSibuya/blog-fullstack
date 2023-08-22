@@ -5,22 +5,17 @@ export const PostContent = styled.div`
   padding: 24px 16px;
   border-radius: 16px;
   margin-bottom: 24px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: 0.5s ease;
+
+  &:hover {
+    border: 1px solid #712ce0;
+    transition: 0.5s ease;
+  }
 
   h4 {
     font-size: 18px;
-  }
-
-  span {
-    font-size: 12px;
-    margin-top: 8px;
-    display: block;
-    color: #712ce0;
-  }
-
-  p {
-    width: 100%;
-    padding-right: 16px;
-    text-align: justify;
   }
 `
 
@@ -30,35 +25,26 @@ export const HeadPost = styled.div`
   justify-content: space-between;
   margin-bottom: 24px;
 `
-
-export const ButtonList = styled.div`
+export const DivDate = styled.div`
   display: flex;
-  align-items: center;
-  gap: 16px;
+  gap: 8px;
 
-  button {
-    width: 140px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #fff;
-    background-color: #9450fc;
-    padding: 8px;
-    border-radius: 8px;
-    border: none;
-    transition: 0.5s ease;
-    cursor: pointer;
+  div {
+    text-align: center;
+    gap: 4px;
+    background-color: #d4baff;
+    border-radius: 24px;
+    padding: 4px 0;
+    width: 100px;
 
-    &:hover {
-      background-color: #bc93ff;
-      transition: 0.5s ease;
+    p {
+      font-size: 10px;
+      letter-spacing: 1px;
     }
 
-    img {
-      max-width: 16px;
+    span {
+      font-size: 10px;
+      color: #712ce0;
     }
   }
 `

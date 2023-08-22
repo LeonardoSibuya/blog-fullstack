@@ -1,22 +1,27 @@
 import * as S from './styles'
 
-import photo_perfil from '../../images/foto-prefil-peq.jpg'
-import post from '../../images/post.png'
-
 import { Container } from '../../style'
+import { useGetPostsQuery } from '../../services/api'
 
 const Header = () => {
+  const { data: postsApi } = useGetPostsQuery()
+
   return (
     <S.Header>
       <Container>
         <S.Content>
-          <h1>My Blog</h1>
-          <S.LinkHome to="/">
-            <img src={post} alt="imagem de postagem" /> Posts
-          </S.LinkHome>
+          <S.TitleDiv to="/">
+            <h1>My Blog</h1>
+          </S.TitleDiv>
           <S.Perfil>
-            <p>Olá Leonardo!</p>
-            <img src={photo_perfil} alt="Foto de perfil" />
+            <p>Hi Leonardo!</p>
+            {postsApi !== undefined && postsApi.length < 1 ? (
+              <p>You dont have posts yet</p>
+            ) : (
+              <p>
+                You Have<span> {postsApi?.length} Posts </span>
+              </p>
+            )}
           </S.Perfil>
         </S.Content>
       </Container>

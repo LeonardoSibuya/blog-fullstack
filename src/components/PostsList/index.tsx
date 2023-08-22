@@ -1,10 +1,11 @@
+import { format } from 'date-fns'
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import * as S from './styles'
 import { Container } from '../../style'
 
-import { deletePost, edit } from '../../store/reducers/posts'
+import { deletePostReducer, edit } from '../../store/reducers/posts'
 import { searchPosts } from '../../store/reducers/filtros'
 
 import { RootReducer } from '../../store'
@@ -13,10 +14,13 @@ import Posts from '../../components/Posts'
 import close from '../../images/close.png'
 import lupa from '../../images/lupa.png'
 import person from '../../images/person.png'
+
 import {
   ResultsPosts,
+  useDeletePostMutation,
   useGetPostsIdQuery,
-  useGetPostsQuery
+  useGetPostsQuery,
+  useUpdatePostMutation
 } from '../../services/api'
 
 export interface ModalState extends ResultsPosts {
@@ -28,31 +32,48 @@ interface PostsListProps {
 }
 
 const PostsList = ({ posts }: PostsListProps) => {
-  const { data: postsItem } = useGetPostsIdQuery()
-
-  const { data: postsApi } = useGetPostsQuery()
-
-  const { items } = useSelector((state: RootReducer) => state.posts)
-  const { titlePostSearch } = useSelector((state: RootReducer) => state.filter)
-
   const dispatch = useDispatch()
 
-  const [isEdit, setIsEdit] = useState(false)
+  const { data: postsItem } = useGetPostsIdQuery()
+  const { data: postsApi, isSuccess } = useGetPostsQuery()
+  const { '0': dataPost } = useUpdatePostMutation()
+  const { '0': dataDeletePost } = useDeletePostMutation()
 
+  const { titlePostSearch } = useSelector((state: RootReducer) => state.filter)
+
+  const [isEdit, setIsEdit] = useState(false)
   const [titleState, setTitleState] = useState('')
   const [text, setText] = useState('')
+  const [numId] = useState(Number)
+  const [isDelet, setIsDelet] = useState(false)
+
+  const formatCreateDate = (date: string) => {
+    return format(new Date(date), 'dd/MM/yyyy')
+  }
+
+  const formatUpdateDate = (date: string) => {
+    return format(new Date(date), 'dd/MM/yyyy')
+  }
 
   useEffect(() => {
-    if (postsApi && postsApi.length > 0) {
-      setTitleState(postsItem?.title || '')
-      setText(postsItem?.description || '')
+    if (postsApi && postsApi.length > 0 && postsItem !== undefined) {
+      setTitleState(postsItem.title)
+      setText(postsItem.description)
     }
-  }, [postsApi?.length, postsItem?.title, postsItem?.description])
+  }, [
+    postsApi?.length,
+    postsItem?.title,
+    postsItem?.description,
+    postsItem,
+    postsApi
+  ])
 
   const cancelEdit = () => {
-    setTitleState(postsItem!.title)
-    setText(postsItem!.description)
-    setIsEdit(false)
+    if (postsItem) {
+      setTitleState(postsItem.title)
+      setText(postsItem.description)
+      setIsEdit(false)
+    }
   }
 
   const [modal, setModal] = useState<ModalState>({
@@ -60,7 +81,7 @@ const PostsList = ({ posts }: PostsListProps) => {
     title: '',
     created_on: '',
     description: '',
-    id: items.length + 1,
+    id: numId,
     update_on: ''
   })
 
@@ -68,7 +89,7 @@ const PostsList = ({ posts }: PostsListProps) => {
     setModal({
       isVisible: false,
       title: '',
-      created_on: '',
+      created_on: modal.created_on,
       description: '',
       id: modal.id,
       update_on: modal.update_on
@@ -91,21 +112,42 @@ const PostsList = ({ posts }: PostsListProps) => {
 
   const searchFilterPosts = filterPosts()
 
-  const verifyEdit = () => {
+  const verifyEdit = async () => {
     if (titleState.length <= 3 || text.length <= 5) {
-      alert('Edit is invalid, check title and text size')
+      alert('ERROR: Edit is invalid, title or text size is too short')
+    } else if (titleState.length >= 26 || text.length >= 401) {
+      alert('ERROR: Edit is invalid, title or text size is too large')
     } else {
-      dispatch(
-        edit({
+      try {
+        const updatedData = await dataPost({
           id: modal.id,
-          created_on: modal.created_on,
-          title: postsItem!.title,
-          description: postsItem!.description,
-          update_on: modal.update_on
-        })
-      )
-      setIsEdit(false)
-      closeModal()
+          data: {
+            title: titleState,
+            description: text,
+            update_on: modal.update_on
+          }
+        }).unwrap()
+        dispatch(edit(updatedData))
+        setIsEdit(false)
+        window.location.reload()
+        closeModal()
+      } catch (error) {
+        console.error('Error editing post:', error)
+      }
+    }
+  }
+
+  const verifyDelete = async () => {
+    if (postsItem) {
+      try {
+        await dataDeletePost(modal.id).unwrap()
+        dispatch(deletePostReducer(modal.id))
+        setIsEdit(false)
+        window.location.reload()
+        closeModal()
+      } catch (error) {
+        console.error('Error', error)
+      }
     }
   }
 
@@ -141,17 +183,17 @@ const PostsList = ({ posts }: PostsListProps) => {
               key={post.id}
               id={post.id}
               title={post.title}
-              created_on={post.created_on}
+              created_on={formatCreateDate(post.created_on)}
               description={post.description}
-              update_on={post.update_on}
+              update_on={formatUpdateDate(post.update_on)}
               modal={() =>
                 setModal({
-                  created_on: post.created_on,
+                  created_on: formatCreateDate(post.created_on),
                   description: post.description,
                   id: post.id,
                   isVisible: true,
                   title: post.title,
-                  update_on: post.update_on
+                  update_on: formatUpdateDate(post.update_on)
                 })
               }
             />
@@ -202,23 +244,40 @@ const PostsList = ({ posts }: PostsListProps) => {
                   </>
                 ) : (
                   <S.ContainerButton>
-                    <button
-                      onClick={() => {
-                        setIsEdit(true)
-                        setTitleState(modal.title)
-                        setText(modal.description)
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => {
-                        dispatch(deletePost(modal.id))
-                        closeModal()
-                      }}
-                    >
-                      Delete
-                    </button>
+                    {isDelet ? (
+                      <>
+                        <button onClick={() => setIsDelet(false)}>
+                          Cancel
+                        </button>
+                        <button
+                          onClick={() => {
+                            closeModal()
+                            verifyDelete()
+                          }}
+                        >
+                          Confirm
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => {
+                            setIsEdit(true)
+                            setTitleState(modal.title)
+                            setText(modal.description)
+                          }}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => {
+                            setIsDelet(true)
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
                   </S.ContainerButton>
                 )}
               </S.ContainerButton>

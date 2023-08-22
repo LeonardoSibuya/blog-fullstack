@@ -17,10 +17,16 @@ export const Content = styled.div`
   justify-content: space-between;
   align-items: center;
   color: #fff;
+`
+
+export const TitleDiv = styled(Link)`
+  cursor: pointer;
+  text-decoration: none;
 
   h1 {
     font-size: 24px;
     padding: 24px 0;
+    color: #fff;
   }
 `
 
