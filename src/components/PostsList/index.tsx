@@ -22,6 +22,8 @@ import {
   useGetPostsQuery,
   useUpdatePostMutation
 } from '../../services/api'
+import Loader from '../Loader'
+import MessageSuccess from '../MessageSuccess'
 
 export interface ModalState extends ResultsPosts {
   isVisible: boolean
@@ -35,17 +37,20 @@ const PostsList = ({ posts }: PostsListProps) => {
   const dispatch = useDispatch()
 
   const { data: postsItem } = useGetPostsIdQuery()
-  const { data: postsApi, isSuccess } = useGetPostsQuery()
+  const { data: postsApi } = useGetPostsQuery()
   const { '0': dataPost } = useUpdatePostMutation()
   const { '0': dataDeletePost } = useDeletePostMutation()
 
   const { titlePostSearch } = useSelector((state: RootReducer) => state.filter)
 
-  const [isEdit, setIsEdit] = useState(false)
   const [titleState, setTitleState] = useState('')
   const [text, setText] = useState('')
+  const [actionType, setActionType] = useState('')
   const [numId] = useState(Number)
+  const [isEdit, setIsEdit] = useState(false)
   const [isDelet, setIsDelet] = useState(false)
+  const [showLoader, setShowLoader] = useState(true)
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
 
   const formatCreateDate = (date: string) => {
     return format(new Date(date), 'dd/MM/yyyy')
@@ -67,6 +72,25 @@ const PostsList = ({ posts }: PostsListProps) => {
     postsItem,
     postsApi
   ])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoader(false)
+    }, 2000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (showSuccessMessage) {
+      const timer = setTimeout(() => {
+        setShowSuccessMessage(false)
+        setShowLoader(true)
+        window.location.reload()
+      }, 2000)
+      return () => clearTimeout(timer)
+    }
+  }, [showSuccessMessage])
 
   const cancelEdit = () => {
     if (postsItem) {
@@ -129,8 +153,9 @@ const PostsList = ({ posts }: PostsListProps) => {
         }).unwrap()
         dispatch(edit(updatedData))
         setIsEdit(false)
-        window.location.reload()
         closeModal()
+        setShowSuccessMessage(true)
+        setActionType('Edited')
       } catch (error) {
         console.error('Error editing post:', error)
       }
@@ -143,156 +168,178 @@ const PostsList = ({ posts }: PostsListProps) => {
         await dataDeletePost(modal.id).unwrap()
         dispatch(deletePostReducer(modal.id))
         setIsEdit(false)
-        window.location.reload()
         closeModal()
+        setShowSuccessMessage(true)
+        setActionType('Deleted')
       } catch (error) {
         console.error('Error', error)
       }
     }
   }
 
+  const actionMessageSuccess = (action: string) => {
+    if (action === 'Edited') {
+      return 'Updated'
+    } else if (action === 'Deleted') {
+      return 'Deleted'
+    }
+    return ''
+  }
+
   return (
-    <>
-      <Container>
-        <S.InfosPost>
-          <h3>Latest Posts</h3>
-          <div>
-            <img src={lupa} alt="" />
-            <input
-              type="text"
-              placeholder="Search"
-              value={titlePostSearch}
-              onChange={(e) => dispatch(searchPosts(e.target.value))}
-            />
-          </div>
-          <S.ButtonNewPost to="newpost">Add New</S.ButtonNewPost>
-        </S.InfosPost>
-      </Container>
-
-      {posts.length < 1 ? (
-        <Container>
-          <S.NoPostDiv>
-            <img src={person} alt="pessoa no computador" />
-            <p>No posts yet</p>
-          </S.NoPostDiv>
-        </Container>
+    <S.ContentPage>
+      {showSuccessMessage ? (
+        <MessageSuccess action={actionMessageSuccess(actionType)} />
       ) : (
-        <ul>
-          {searchFilterPosts?.map((post) => (
-            <Posts
-              key={post.id}
-              id={post.id}
-              title={post.title}
-              created_on={formatCreateDate(post.created_on)}
-              description={post.description}
-              update_on={formatUpdateDate(post.update_on)}
-              modal={() =>
-                setModal({
-                  created_on: formatCreateDate(post.created_on),
-                  description: post.description,
-                  id: post.id,
-                  isVisible: true,
-                  title: post.title,
-                  update_on: formatUpdateDate(post.update_on)
-                })
-              }
-            />
-          ))}
-        </ul>
-      )}
-
-      <S.Modal className={modal.isVisible ? 'visible' : ''}>
-        <S.ModalContent>
-          <S.ImageClose
-            src={close}
-            alt=""
-            onClick={() => {
-              closeModal()
-              cancelEdit()
-            }}
-          />
-          <div>
-            <div>
-              {isEdit ? (
-                <S.ModalForm>
-                  <input
-                    type="text"
-                    value={titleState}
-                    onChange={(e) => setTitleState(e.target.value)}
-                  />
+        <>
+          {showLoader ? (
+            <Loader />
+          ) : (
+            <>
+              <Container>
+                <S.InfosPost>
+                  <h3>Your Posts</h3>
                   <div>
-                    <textarea
-                      value={text}
-                      onChange={(e) => setText(e.target.value)}
+                    <img src={lupa} alt="" />
+                    <input
+                      type="text"
+                      placeholder="Search"
+                      value={titlePostSearch}
+                      onChange={(e) => dispatch(searchPosts(e.target.value))}
                     />
                   </div>
-                </S.ModalForm>
+                  <S.ButtonNewPost to="newpost">Add New</S.ButtonNewPost>
+                </S.InfosPost>
+              </Container>
+
+              {posts.length < 1 ? (
+                <Container>
+                  <S.NoPostDiv>
+                    <img src={person} alt="pessoa no computador" />
+                    <p>No posts yet</p>
+                  </S.NoPostDiv>
+                </Container>
               ) : (
-                <S.HeadModal>
-                  <h3>{modal.title}</h3>
-                  <span>{modal.created_on}</span>
-                  <div>
-                    <p>{modal.description}</p>
-                  </div>
-                </S.HeadModal>
+                <S.ListPosts>
+                  {searchFilterPosts?.map((post) => (
+                    <Posts
+                      key={post.id}
+                      id={post.id}
+                      title={post.title}
+                      created_on={formatCreateDate(post.created_on)}
+                      description={post.description}
+                      update_on={formatUpdateDate(post.update_on)}
+                      modal={() =>
+                        setModal({
+                          created_on: formatCreateDate(post.created_on),
+                          description: post.description,
+                          id: post.id,
+                          isVisible: true,
+                          title: post.title,
+                          update_on: formatUpdateDate(post.update_on)
+                        })
+                      }
+                    />
+                  ))}
+                </S.ListPosts>
               )}
-              <S.ContainerButton>
-                {isEdit ? (
-                  <>
-                    <button onClick={verifyEdit}>Save</button>
-                    <button onClick={cancelEdit}>Cancel</button>
-                  </>
-                ) : (
-                  <S.ContainerButton>
-                    {isDelet ? (
-                      <>
-                        <button onClick={() => setIsDelet(false)}>
-                          Cancel
-                        </button>
-                        <button
-                          onClick={() => {
-                            closeModal()
-                            verifyDelete()
-                          }}
-                        >
-                          Confirm
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => {
-                            setIsEdit(true)
-                            setTitleState(modal.title)
-                            setText(modal.description)
-                          }}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => {
-                            setIsDelet(true)
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </>
-                    )}
-                  </S.ContainerButton>
-                )}
-              </S.ContainerButton>
-            </div>
-          </div>
-        </S.ModalContent>
-        <div
-          className="overlay"
-          onClick={() => {
-            closeModal()
-            cancelEdit()
-          }}
-        ></div>
-      </S.Modal>
-    </>
+
+              <S.Modal className={modal.isVisible ? 'visible' : ''}>
+                <S.ModalContent>
+                  <S.ImageClose
+                    src={close}
+                    alt=""
+                    onClick={() => {
+                      closeModal()
+                      cancelEdit()
+                    }}
+                  />
+                  <div>
+                    <div>
+                      {isEdit ? (
+                        <S.ModalForm>
+                          <input
+                            type="text"
+                            value={titleState}
+                            onChange={(e) => setTitleState(e.target.value)}
+                          />
+                          <div>
+                            <textarea
+                              value={text}
+                              onChange={(e) => setText(e.target.value)}
+                            />
+                          </div>
+                        </S.ModalForm>
+                      ) : (
+                        <S.HeadModal>
+                          <h3>{modal.title}</h3>
+                          <span>{modal.created_on}</span>
+                          <div>
+                            <p>{modal.description}</p>
+                          </div>
+                        </S.HeadModal>
+                      )}
+                      <S.ContainerButton>
+                        {isEdit ? (
+                          <>
+                            <button onClick={verifyEdit}>Save</button>
+                            <button onClick={cancelEdit}>Cancel</button>
+                          </>
+                        ) : (
+                          <S.ContainerButton>
+                            {isDelet ? (
+                              <>
+                                <button onClick={() => setIsDelet(false)}>
+                                  Cancel
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    closeModal()
+                                    verifyDelete()
+                                  }}
+                                >
+                                  Confirm
+                                </button>
+                              </>
+                            ) : (
+                              <>
+                                <button
+                                  onClick={() => {
+                                    setIsEdit(true)
+                                    setTitleState(modal.title)
+                                    setText(modal.description)
+                                  }}
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setIsDelet(true)
+                                  }}
+                                >
+                                  Delete
+                                </button>
+                              </>
+                            )}
+                          </S.ContainerButton>
+                        )}
+                      </S.ContainerButton>
+                    </div>
+                  </div>
+                </S.ModalContent>
+                <div
+                  className="overlay"
+                  onClick={() => {
+                    closeModal()
+                    cancelEdit()
+                  }}
+                ></div>
+              </S.Modal>
+            </>
+          )}
+        </>
+      )}
+    </S.ContentPage>
   )
 }
 

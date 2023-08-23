@@ -16,7 +16,7 @@ const Header = () => {
           <S.Perfil>
             <p>Hi Leonardo!</p>
             {postsApi !== undefined && postsApi.length < 1 ? (
-              <p>You dont have posts yet</p>
+              <p>You have no posts yet</p>
             ) : (
               <p>
                 You Have<span> {postsApi?.length} Posts </span>

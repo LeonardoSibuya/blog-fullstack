@@ -2,6 +2,10 @@ import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
 
+export const Content = styled.div`
+  position: relative;
+`
+
 export const TitlePage = styled.h2`
   text-align: center;
   font-size: 28px;

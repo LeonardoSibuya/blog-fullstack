@@ -1,6 +1,11 @@
 import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
+import { PostContent } from '../Posts/styles'
+
+export const ContentPage = styled.div`
+  position: relative;
+`
 
 export const InfosPost = styled.div`
   display: flex;
@@ -64,6 +69,31 @@ export const NoPostDiv = styled.div`
     font-size: 20px;
     font-weight: bold;
     letter-spacing: 1px;
+  }
+`
+
+export const ListPosts = styled.ul`
+  overflow-y: scroll;
+  max-width: 80%;
+  margin: 0 auto 32px;
+  height: 400px;
+  max-height: 100%;
+  position: relative;
+
+  ::-webkit-scrollbar {
+    width: 16px;
+    border-radius: 40px;
+    background-color: #bc93ff;
+    border-left: 0;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #9450fc;
+    border-radius: 40px;
+  }
+
+  ${PostContent} {
+    margin: 16px 0;
   }
 `
 
