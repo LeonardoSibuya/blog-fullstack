@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
+import { breakpoints } from '../../style'
 
 export const Content = styled.div`
   position: relative;
@@ -11,6 +12,10 @@ export const TitlePage = styled.h2`
   font-size: 28px;
   letter-spacing: 1px;
   margin-top: 32px;
+
+  @media (max-width: ${breakpoints.celphone}) {
+    font-size: 24px;
+  }
 `
 export const Form = styled.form`
   margin-top: 24px;
@@ -60,6 +65,16 @@ export const ContainerInput = styled.div`
       outline: none;
       transition: 0.5s ease;
       width: 480px;
+    }
+  }
+
+  @media (max-width: ${breakpoints.celphone}) {
+    textarea {
+      width: 240px;
+
+      :focus {
+        width: 280px;
+      }
     }
   }
 `

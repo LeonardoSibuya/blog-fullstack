@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import bg_image from '../../images/foto-background-pc-blue.png'
-import { Container } from '../../style'
+import { Container, breakpoints } from '../../style'
 
 export const Banner = styled.div`
   background-image: url(${bg_image});
@@ -16,12 +16,21 @@ export const Banner = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @media (max-width: ${breakpoints.celphone}) {
+      flex-direction: column;
+    }
   }
 `
 export const Profile = styled.div`
   display: flex;
   gap: 16px;
   align-items: center;
+
+  @media (max-width: ${breakpoints.celphone}) {
+    flex-direction: column;
+    text-align: center;
+  }
 
   img {
     border-radius: 24px;
@@ -46,6 +55,10 @@ export const ButtonsLinks = styled.div`
   align-items: center;
   gap: 16px;
 
+  @media (max-width: ${breakpoints.celphone}) {
+    margin-top: 16px;
+  }
+
   a {
     text-decoration: none;
     font-size: 16px;
@@ -56,6 +69,18 @@ export const ButtonsLinks = styled.div`
     letter-spacing: 1px;
     border-radius: 8px;
     transition: 0.5s ease;
+
+    @media (max-width: ${breakpoints.tablet}) {
+      font-size: 12px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    @media (max-width: ${breakpoints.celphone}) {
+      font-size: 12px;
+      padding: 8px;
+      text-align: center;
+    }
 
     &:hover {
       background-color: #bc93ff;

@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
+import { breakpoints } from '../../style'
 
 export const Header = styled.header`
   background-color: #9450fc;
@@ -17,6 +18,10 @@ export const Content = styled.div`
   justify-content: space-between;
   align-items: center;
   color: #fff;
+
+  @media (max-width: ${breakpoints.celphone}) {
+    flex-direction: column;
+  }
 `
 
 export const TitleDiv = styled(Link)`
@@ -58,9 +63,7 @@ export const Perfil = styled.div`
   align-items: center;
   gap: 16px;
 
-  img {
-    max-width: 80px;
-    height: 60px;
-    border-radius: 50%;
+  @media (max-width: ${breakpoints.celphone}) {
+    margin-bottom: 16px;
   }
 `

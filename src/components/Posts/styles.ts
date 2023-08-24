@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { breakpoints } from '../../style'
 
 export const PostContent = styled.div`
   background-color: #eee;
@@ -24,6 +25,10 @@ export const HeadPost = styled.div`
   align-items: start;
   justify-content: space-between;
   margin-bottom: 24px;
+
+  @media (max-width: ${breakpoints.celphone}) {
+    flex-direction: column;
+  }
 `
 export const DivDate = styled.div`
   display: flex;
@@ -45,6 +50,13 @@ export const DivDate = styled.div`
     span {
       font-size: 10px;
       color: #712ce0;
+    }
+
+    @media (max-width: ${breakpoints.celphone}) {
+      width: 80px;
+      border-radius: 8px;
+      padding: 2px;
+      margin-top: 8px;
     }
   }
 `

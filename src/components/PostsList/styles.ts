@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 import { Link } from 'react-router-dom'
 import { PostContent } from '../Posts/styles'
+import { breakpoints } from '../../style'
 
 export const ContentPage = styled.div`
   position: relative;
@@ -37,6 +38,12 @@ export const InfosPost = styled.div`
       background-color: #eee;
     }
   }
+
+  @media (max-width: ${breakpoints.celphone}) {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
 `
 export const ButtonNewPost = styled(Link)`
   text-decoration: none;
@@ -70,6 +77,17 @@ export const NoPostDiv = styled.div`
     font-weight: bold;
     letter-spacing: 1px;
   }
+
+  @media (max-width: ${breakpoints.celphone}) {
+    margin-bottom: 24px;
+
+    img {
+      max-width: 240px;
+    }
+    p {
+      font-size: 18px;
+    }
+  }
 `
 
 export const ListPosts = styled.ul`
@@ -94,6 +112,15 @@ export const ListPosts = styled.ul`
 
   ${PostContent} {
     margin: 16px 0;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    max-width: 100%;
+    height: 620px;
+  }
+
+  @media (max-width: ${breakpoints.celphone}) {
+    max-width: 100%;
   }
 `
 
@@ -129,6 +156,14 @@ export const ModalContent = styled.div`
   border-radius: 24px;
   padding: 24px;
   box-shadow: 0px 1px 8px #000;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    width: 80%;
+  }
+
+  @media (max-width: ${breakpoints.celphone}) {
+    width: 80%;
+  }
 `
 export const ImageClose = styled.img`
   position: absolute;
@@ -140,12 +175,9 @@ export const ImageClose = styled.img`
   z-index: 1;
   cursor: pointer;
 
-  @media (max-width: 1024px) {
-    top: -64px;
-    left: 50%;
-    right: 50%;
-    width: 20px;
-    height: 20px;
+  @media (max-width: ${breakpoints.celphone}) {
+    top: 0px;
+    right: 0px;
   }
 `
 export const HeadModal = styled.div`
@@ -168,6 +200,16 @@ export const HeadModal = styled.div`
     margin-top: 16px;
     line-height: 22px;
     text-align: justify;
+  }
+
+  @media (max-width: ${breakpoints.celphone}) {
+    h3 {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 14px;
+    }
   }
 `
 export const ModalForm = styled.div`
@@ -206,6 +248,16 @@ export const ModalForm = styled.div`
       outline: none;
       transition: 0.5s ease;
       width: 480px;
+    }
+  }
+
+  @media (max-width: ${breakpoints.celphone}) {
+    textarea {
+      max-width: 240px;
+
+      :focus {
+        width: 240px;
+      }
     }
   }
 `

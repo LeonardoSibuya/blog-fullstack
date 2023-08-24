@@ -11,6 +11,11 @@ const EstiloGlobal = createGlobalStyle`
 `
 export default EstiloGlobal
 
+export const breakpoints = {
+  tablet: '1024px',
+  celphone: '768px'
+}
+
 export const Container = styled.div`
   max-width: 1024px;
   width: 100%;
