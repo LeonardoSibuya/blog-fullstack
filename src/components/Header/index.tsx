@@ -11,7 +11,7 @@ const Header = () => {
       <Container>
         <S.Content>
           <S.TitleDiv to="/">
-            <h1>My Blog</h1>
+            <h1>BlogPost</h1>
           </S.TitleDiv>
           <S.Perfil>
             <p>Hi Leonardo!</p>

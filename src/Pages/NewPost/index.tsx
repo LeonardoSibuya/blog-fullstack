@@ -55,7 +55,7 @@ const NewPost = () => {
   return (
     <S.Content>
       {showSuccessMessage ? (
-        <MessageSuccess action="Created" />
+        <MessageSuccess action="Criado" />
       ) : (
         <>
           <Header />

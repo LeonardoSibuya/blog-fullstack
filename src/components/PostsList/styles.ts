@@ -50,14 +50,14 @@ export const ButtonNewPost = styled(Link)`
   font-size: 16px;
   font-weight: bold;
   color: #fff;
-  background-color: #9450fc;
+  background-color: #3877f4;
   padding: 8px 16px;
   letter-spacing: 1px;
   border-radius: 8px;
   transition: 0.5s ease;
 
   &:hover {
-    background-color: #bc93ff;
+    background-color: #a8bfea;
     transition: 0.5s ease;
   }
 `
@@ -101,12 +101,12 @@ export const ListPosts = styled.ul`
   ::-webkit-scrollbar {
     width: 16px;
     border-radius: 40px;
-    background-color: #bc93ff;
+    background-color: #a8bfea;
     border-left: 0;
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: #9450fc;
+    background-color: #3877f4;
     border-radius: 40px;
   }
 
@@ -149,7 +149,7 @@ export const Modal = styled.div`
   }
 `
 export const ModalContent = styled.div`
-  width: 60%;
+  width: 620px;
   position: relative;
   z-index: 1;
   background-color: #eee;
@@ -192,7 +192,7 @@ export const HeadModal = styled.div`
   }
 
   span {
-    color: #9450fc;
+    color: #3877f4;
     font-size: 12px;
   }
 
@@ -226,7 +226,7 @@ export const ModalForm = styled.div`
     transition: 0.5s ease;
 
     :focus {
-      border-color: #9450fc;
+      border-color: #3877f4;
       outline: none;
       transition: 0.5s ease;
       padding: 8px 16px;
@@ -244,7 +244,7 @@ export const ModalForm = styled.div`
     height: 160px;
 
     :focus {
-      border-color: #9450fc;
+      border-color: #3877f4;
       outline: none;
       transition: 0.5s ease;
       width: 480px;
@@ -276,7 +276,7 @@ export const ContainerButton = styled.div`
     font-size: 14px;
     font-weight: bold;
     color: #fff;
-    background-color: #9450fc;
+    background-color: #3877f4;
     padding: 8px;
     border-radius: 8px;
     border: none;
@@ -284,7 +284,7 @@ export const ContainerButton = styled.div`
     cursor: pointer;
 
     &:hover {
-      background-color: #bc93ff;
+      background-color: #a8bfea;
       transition: 0.5s ease;
     }
   }

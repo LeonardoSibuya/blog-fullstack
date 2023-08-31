@@ -43,7 +43,7 @@ export const ContainerInput = styled.div`
     transition: 0.5s ease;
 
     :focus {
-      border-color: #9450fc;
+      border-color: #3877f4;
       outline: none;
       transition: 0.5s ease;
       padding: 8px 16px;
@@ -61,7 +61,7 @@ export const ContainerInput = styled.div`
     height: 160px;
 
     :focus {
-      border-color: #9450fc;
+      border-color: #3877f4;
       outline: none;
       transition: 0.5s ease;
       width: 480px;
@@ -90,14 +90,14 @@ export const ContainerButtons = styled.div`
     font-size: 16px;
     font-weight: bold;
     color: #fff;
-    background-color: #9450fc;
+    background-color: #3877f4;
     padding: 6px 16px;
     letter-spacing: 1px;
     border-radius: 8px;
     transition: 0.5s ease;
 
     &:hover {
-      background-color: #bc93ff;
+      background-color: #a8bfea;
       transition: 0.5s ease;
     }
   }
@@ -109,14 +109,14 @@ export const ButtonPage = styled(Link)`
   font-size: 16px;
   font-weight: bold;
   color: #fff;
-  background-color: #9450fc;
+  background-color: #3877f4;
   padding: 6px 16px;
   letter-spacing: 1px;
   border-radius: 8px;
   transition: 0.5s ease;
 
   &:hover {
-    background-color: #bc93ff;
+    background-color: #a8bfea;
     transition: 0.5s ease;
   }
 `

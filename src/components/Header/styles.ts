@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { breakpoints } from '../../style'
 
 export const Header = styled.header`
-  background-color: #9450fc;
+  background-color: #3877f4;
   z-index: 1;
   position: sticky;
   top: 0;
@@ -32,29 +32,6 @@ export const TitleDiv = styled(Link)`
     font-size: 24px;
     padding: 24px 0;
     color: #fff;
-  }
-`
-
-export const LinkHome = styled(Link)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  text-decoration: none;
-  color: #fff;
-  transition: 0.5s ease;
-
-  img {
-    max-width: 100%;
-    width: 16px;
-    object-fit: cover;
-  }
-
-  &:hover {
-    background-color: #ab79fc;
-    border-radius: 16px;
-    transition: 0.5s ease;
-    padding: 8px;
   }
 `
 

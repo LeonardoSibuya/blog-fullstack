@@ -179,9 +179,9 @@ const PostsList = ({ posts }: PostsListProps) => {
 
   const actionMessageSuccess = (action: string) => {
     if (action === 'Edited') {
-      return 'Updated'
+      return 'Atualizado'
     } else if (action === 'Deleted') {
-      return 'Deleted'
+      return 'Deletado'
     }
     return ''
   }

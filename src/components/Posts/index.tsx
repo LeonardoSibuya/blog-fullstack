@@ -15,11 +15,11 @@ const Posts = ({ created_on, description, title, modal, update_on }: Props) => {
           <h4>{title}</h4>
           <S.DivDate>
             <div>
-              <p>Created At</p>
+              <p>Created on</p>
               <span>{created_on}</span>
             </div>
             <div>
-              <p>Edited At</p>
+              <p>Edited on</p>
               <span>{update_on}</span>
             </div>
           </S.DivDate>

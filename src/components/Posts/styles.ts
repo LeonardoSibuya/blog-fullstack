@@ -11,7 +11,7 @@ export const PostContent = styled.div`
   transition: 0.5s ease;
 
   &:hover {
-    border: 1px solid #712ce0;
+    border: 1px solid #3877f4;
     transition: 0.5s ease;
   }
 
@@ -37,10 +37,10 @@ export const DivDate = styled.div`
   div {
     text-align: center;
     gap: 4px;
-    background-color: #d4baff;
-    border-radius: 24px;
+    background-color: #a8bfea;
+    border-radius: 8px;
     padding: 4px 0;
-    width: 100px;
+    width: 80px;
 
     p {
       font-size: 10px;

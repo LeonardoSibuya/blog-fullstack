@@ -4,7 +4,7 @@ import { Container } from './syles'
 
 const Loader = () => (
   <Container>
-    <PropagateLoader color="#9450fc" loading size={40} speedMultiplier={0.7} />
+    <PropagateLoader color="#3877f4" loading size={40} speedMultiplier={0.7} />
   </Container>
 )
 

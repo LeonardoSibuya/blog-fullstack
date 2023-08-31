@@ -64,7 +64,7 @@ export const ButtonsLinks = styled.div`
     font-size: 16px;
     font-weight: bold;
     color: #fff;
-    background-color: #9450fc;
+    background-color: #3877f4;
     padding: 8px 16px;
     letter-spacing: 1px;
     border-radius: 8px;
@@ -83,7 +83,7 @@ export const ButtonsLinks = styled.div`
     }
 
     &:hover {
-      background-color: #bc93ff;
+      background-color: #a8bfea;
       transition: 0.5s ease;
     }
   }

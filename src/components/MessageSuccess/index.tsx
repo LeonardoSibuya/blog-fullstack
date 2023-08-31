@@ -7,7 +7,7 @@ type Props = {
 const MessageSuccess = ({ action }: Props) => {
   return (
     <S.Container>
-      <p>The post has been successfully {action}</p>
+      <p>O Post foi {action} com sucesso!</p>
     </S.Container>
   )
 }
